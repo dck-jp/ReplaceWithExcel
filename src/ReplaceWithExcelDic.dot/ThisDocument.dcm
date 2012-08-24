@@ -1,0 +1,45 @@
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+END
+Attribute VB_Name = "ThisDocument"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Option Explicit
+
+Const barName As String = "Excelの辞書を使って置換"
+Const actionName As String = "Excelの辞書を使って置換"
+
+'アドインをインストールしたときに自動実行させる
+Sub AutoExec()
+    On Error Resume Next
+    
+    Dim Bar As CommandBar
+    Set Bar = Application.CommandBars(barName)
+    
+    If Bar Is Nothing Then
+        Set Bar = Application.CommandBars.Add(barName)
+        Bar.Position = msoBarTop
+            
+        Dim Menu As CommandBarButton
+        Set Menu = Bar.Controls.Add(Type:=msoControlButton)
+        Menu.Caption = actionName
+        Menu.OnAction = actionName
+        Menu.Width = 60
+        Menu.BeginGroup = True
+        Menu.Style = msoButtonCaption
+    End If
+    
+    Bar.Visible = True
+End Sub
+
+
+Sub AutoExit()
+    If Application.CommandBars(barName) Is Nothing Then
+    Else
+        Application.CommandBars(barName).Delete
+    End If
+End Sub
+
